@@ -1,0 +1,123 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leaflet map slider template</title>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="leaflet-map-slider.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro|Lora|Roboto+Condensed|Roboto' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- IT'S A TAG! -->
+    <meta property="og:title" content="" />
+    <meta property="og:site name" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:description" content=""/>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro|Lora|Roboto+Condensed|Roboto' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  </head>
+  <body>
+    <header class="header">
+
+    </header>
+  <div class="container-fluid">
+    <div class="col-sm-4">
+        <h2>Map Headline</h2>
+        <p>Map text would go here. Explain all about your two maps.</p>
+    </div>
+    <div class="col-sm-8 fill">
+      <div id='map'></div>
+      <input id='range' class='range' type='range' min='0' max='1.0' step='any' />
+
+      <!-- Put your slider labels here -->
+      <div class='year left'>Left Label</div><div class='year right'>Right Label</div>
+      <i class="fa fa-caret-left"></i>
+      <i class="fa fa-caret-right"></i>
+    </div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script>
+      // Initialize the map
+      var map = L.map('map').setView([41.878114,-87.629798], 11);
+      map.options.maxZoom = 14; map.options.minZoom = 10;
+      
+      // We use stamen tiles for out base layer, but you could sub in your favorite tileset here or just use the two map layers below if each is a full map
+      var stamenUrl = 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
+      var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
+      var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 15, attribution: stamenAttribution});
+        
+      map.addLayer(stamenLayer)
+      
+
+      // Add your two tile layers here
+    //   var tileLayerRight = L.tileLayer('https://s3.amazonaws.com/wbez-assets/maps/mayoral_2015/tiles_75/{z}/{x}/{y}.png',{minZoom:10}).addTo(map);
+      var tileLayerRight = L.marker([41.8600546686662, -87.7845248024562]).addTo(map);
+      var tileLayerLeft = L.tileLayer('https://s3.amazonaws.com/wbez-assets/maps/mayoral_2011/tiles_2011_75_rg/{z}/{x}/{y}.png',{minZoom:10}).addTo(map);
+
+      // Initialize the range
+      var range = document.getElementById('range');
+
+      // Clip function crops the two map layers and handles positioning the markers
+      function clip() {
+        var nw = map.containerPointToLayerPoint([0, 0]),
+            se = map.containerPointToLayerPoint(map.getSize()),
+            clipX = nw.x + (se.x - nw.x) * range.value;
+            // top right bottom left
+
+        // clip the layers. Include the base layer to get around a bug where the layers don't refresh on zoom
+        stamenLayer.getContainer().style.clip = 'rect(' + [nw.y, se.x, se.y, nw.x].join('px,') + 'px)';
+        tileLayerRight.getContainer().style.clip = 'rect(' + [nw.y, se.x, se.y, clipX].join('px,') + 'px)';
+        tileLayerLeft.getContainer().style.clip = 'rect(' + [nw.y, clipX, se.y, nw.x].join('px,') + 'px)';
+
+        // get size of the map container
+        var w = $('.fill').width()*range.value;
+
+        // reset the arrows and markers
+        $('.left').css('left',(w-$('.left').width())-20);
+        $('.right').css('left',(w+20));
+        $('.fa-caret-left').css('left',(w-$('.fa-caret-left').width()-6));
+        $('.fa-caret-right').css('left',w+6);
+      }
+
+      range['oninput' in range ? 'oninput' : 'onchange'] = clip;
+      map.on('move', clip);
+      
+      // Get around a bug where the layers don't refresh on zoom
+      map.on('viewreset',function(){
+        console.log('reset');
+        $('.leaflet-layer').attr('style','clip: rect(0px 0px 0px 0px);');
+      })
+
+      // Make sure the clip happens after the second layers finishes loading
+      tileLayerLeft.on('load',function(){
+        clip();
+      })
+      
+      // Refreshes the map when the page size changes
+      $( window ).resize(function() {
+        clip();
+      });
+
+      clip();
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,188 @@
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  #map {
+    height:100%;
+    min-height:100%;
+    min-width:100%;
+    display: block;
+  }
+  
+  .fill, .row, .container-fluid {
+    height:100%;
+    min-height:100%;
+    padding:0;
+  }
+  
+  .fill {
+      overflow:hidden;
+  }
+  
+  header {
+    background-color:#333;
+    color:#fff;
+    padding:1em 2.5% 0.5em;
+    position:absolute;
+    top:0px; left:0px;
+    width:100%;
+  }
+  
+  /* Main slider styles */
+  .range {
+    position:absolute;
+    top:0px;
+    margin:0px;
+  }
+  
+  input[type=range] {
+      -webkit-appearance: none;
+      z-index: 99;
+  }
+  
+  input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 0px;
+      margin-left: -20px;
+      margin-right: -20px;
+  }
+  
+  input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: none;
+      height: 9000px;
+      width: 40px;
+      background: #333;
+      background-clip:content-box;
+      margin-top: 0px;
+      cursor: col-resize;
+      padding:0px 17px;
+  }
+  
+  input[type=range]:focus {
+      outline: none;
+  }
+  
+  /* Firefox slider styles */
+  @-moz-document url-prefix() {
+      input[type=range]{
+          /*required for proper track sizing in FF*/
+          width: calc(100% + 40px);
+          z-index: 99;
+          border: 0px solid white;
+          padding:0px;
+          margin-left: -20px;
+      }
+  }
+  
+  input[type=range]::-moz-range-track {
+      width: calc(100% + 40px);
+      height: 0px;
+  }
+  
+  input[type=range]::-moz-range-thumb {
+      border: none;
+      height: 9000px;
+      width: 6px;
+      background: #ED1C24;
+      background-clip:content-box;
+      margin-top: 0px;
+      cursor: col-resize;
+      padding:0px 17px;
+  }
+  
+  input[type=range]:-moz-focusring{
+      outline: none;
+      outline-offset: -1px;
+  }
+  
+  input[type=range]:focus::-moz-range-track {
+      background: #ccc;
+      opacity: 0;
+  }
+  
+  input[type=range]::-moz-focus-outer {
+      border: 0;
+      }
+  
+  /* IE slider styles */
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 9000px;
+      background:transparent;
+  }
+  
+  input[type=range]::-ms-thumb {
+      border: none;
+      height: 9000px;
+      width: 6px;
+      background: #333;
+      background-clip:content-box;
+      margin-top: 0px;
+      cursor: col-resize;
+  }
+  
+  input[type=range]::-ms-fill-lower {
+      background:transparent;
+  }
+  
+  /* Styles for text labels on slider */
+  .year {
+      position: absolute;
+      top:5%;
+      z-index: 100;
+      font-size: 3em;
+      color:#333;
+      -webkit-text-shadow: 1px 1px 1px #fff;
+      -moz-text-shadow:    1px 1px 1px #fff;
+      text-shadow:         1px 1px 1px #fff;
+      font-family: 'Roboto Condensed';
+  }
+  
+  /* Styles for arrow labels on slider */
+  .fa {
+      position: absolute;
+      top:45%;
+      z-index: 1;
+      font-size: 3em;
+      color:#333;
+      -webkit-text-shadow: 1px 1px 1px #fff;
+      -moz-text-shadow:    1px 1px 1px #fff;
+      text-shadow:         1px 1px 1px #fff;
+  }
+  
+  /* END SLIDER STYLES */
+  
+  .col-sm-3 {
+      overflow:scroll;
+      height:100%;
+  }
+  
+  h2 {
+      font-family: Lora;
+  }
+  
+  @media (max-width: 768px) {
+    .fill {
+      margin:10px;
+    }
+  
+    .fill, #map {
+      min-height: 0px;
+    }
+  
+    header {
+      position:relative;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    body {
+        /* Padding top should be set to height of header */
+        padding-top:1.5em;
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+    }
+  }
