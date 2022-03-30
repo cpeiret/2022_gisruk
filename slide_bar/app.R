@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(ricv)
 
 # Define UI for application that draws a histogram
 ui <- ricv(img1 = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Gull_portrait_ca_usa.jpg/1280px-Gull_portrait_ca_usa.jpg", 
