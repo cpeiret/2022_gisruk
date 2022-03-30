@@ -11,9 +11,9 @@ library(shiny)
 library(ricv)
 
 # Define UI for application that draws a histogram
-ui <- ricv(img1 = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Gull_portrait_ca_usa.jpg/1280px-Gull_portrait_ca_usa.jpg", 
-           img2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Schachfiguren%2C_Bauern_--_2022_--_0022_%28bw%29.jpg/1920px-Schachfiguren%2C_Bauern_--_2022_--_0022_%28bw%29.jpg",
-           options = list(addCircle = T, hoverStart = T))
+ui <- ricv(img1 = "https://github.com/cpeiret/2022_gisruk/raw/main/slide_bar/image1.png", 
+           img2 = "https://github.com/cpeiret/2022_gisruk/raw/main/slide_bar/image1.png",
+           options = list(addCircle = T, hoverStart = T, fluidMode = T))
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
