@@ -12,19 +12,19 @@ seniors_i = st_read('C:/Users/b9066009/Documents/PhD/conferences/2022_GISRUK/202
                    layer = 'access_score_seniors')
 
 # prepare data (add quantiles)
-test = adults_i
-test$quartile = ntile(test$access_score, 4)
-test$access_cat = ifelse(test$quartile == 1, 'low access',
-                         ifelse(test$quartile == 2, 'mid-low access',
-                         ifelse(test$quartile == 3, 'mid-high access',
+
+adults_i$quartile = ntile(adults_i$access_score, 4)
+adults_i$access_cat = ifelse(adults_i$quartile == 1, 'low access',
+                         ifelse(adults_i$quartile == 2, 'mid-low access',
+                         ifelse(adults_i$quartile == 3, 'mid-high access',
                          'high access')))
 
 
 # separate into layers
-low_access = test %>% filter(access_cat == 'low access')
-mid_low_access = test %>% filter(access_cat == 'mid-low access')
-mid_high_access = test %>% filter(access_cat == 'mid-high access')
-high_access = test %>% filter(access_cat == 'high access')
+low_access = adults_i %>% filter(access_cat == 'low access')
+mid_low_access = adults_i %>% filter(access_cat == 'mid-low access')
+mid_high_access = adults_i %>% filter(access_cat == 'mid-high access')
+high_access = adults_i %>% filter(access_cat == 'high access')
 
 # map
 m_low = tm_shape(low_access) +
