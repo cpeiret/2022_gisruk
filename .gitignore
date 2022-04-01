@@ -2,3 +2,5 @@
 data/polling_districts.gpkg
 data/wards.gpkg
 data/buildings.gpkg
+results/tessellation_access.gpkg
+results/tessellation.gpkg
